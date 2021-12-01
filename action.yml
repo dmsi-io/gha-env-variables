@@ -61,7 +61,8 @@ runs:
 
     - name: CERT_NAME
       run: |
-        export CERT_NAME=wildcard-${{ inputs.TLD/./- }}
+        export TLD=${{ inputs.TLD }}
+        export CERT_NAME=wildcard-${TLD/./-}
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
       shell: bash
