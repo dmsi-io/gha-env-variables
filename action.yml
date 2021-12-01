@@ -30,7 +30,7 @@ runs:
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
       shell: bash
-      
+
     - name: NAMESPACE
       run: |
         export BRANCH_NAME=${{ inputs.NAMESPACE }}
@@ -79,10 +79,4 @@ runs:
         export CERT_NAME=wildcard-${TLD//./-}
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
-      shell: bash
-
-    - name: Install envsubst
-      run: |
-        env | sort
-        sudo apt-get install gettext
       shell: bash
