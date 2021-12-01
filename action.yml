@@ -47,7 +47,7 @@ runs:
 
     - name: BUILD_IMAGE
       run: |
-        export BUILD_IMAGE=$REGISTRY_HOSTNAME/${{ secrets.GCP_PROJECT_ID }}/$SERVICE_NAME:$SHORT_SHA
+        export BUILD_IMAGE=$REGISTRY_HOSTNAME/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:$SHORT_SHA
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
       shell: bash
