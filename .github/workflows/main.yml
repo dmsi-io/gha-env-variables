@@ -19,3 +19,14 @@ jobs:
 
       - name: Print Environment Variable Replacement
         run: cat example.txt | envsubst
+
+      - name: Export Environment Variables (override defaults)
+        uses: dmsi-io/gha-env-variables@feature/AW-597
+        with:
+          TLD: agility.dmsi.io
+          GCP_PROJECT_ID: test-project-id
+          NAMESPACE: something/testing-OVERRIDE
+          SERVICE_NAME: something/testing-override
+
+      - name: Print Environment Variable Replacement (override defaults)
+        run: cat example.txt | envsubst

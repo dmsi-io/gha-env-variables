@@ -12,17 +12,27 @@ inputs:
   TLD:
     description: 'Top Level Domain to create subdomain on.'
     required: true
+  NAMESPACE: 
+    description: 'Allows to override the desired NAMESPACE variable'
+    required: false
+    default: ${{ github.ref_name }}
+  SERVICE_NAME: 
+    description: 'Allows to override the desired SERVICE_NAME variable'
+    required: false
+    default: ${{ github.repository }}
 
 runs:
   using: 'composite'
   steps:
     - name: NAMESPACE
       run: |
-        # will remove all but the content behind the last '/'
-        export BRANCH_NAME=${GITHUB_REF##*/}
+        export BRANCH_NAME=${{ inputs.NAMESPACE }}
 
-        # will convert to lowercase (domains must be all lowercase)
-        export NAMESPACE=${BRANCH_NAME,,}
+        # will remove all but the content behind the last '/'
+        export SHORT_BRANCH_NAME=${BRANCH_NAME##*/}
+
+        # will convert to lowercase (namespaces must be all lowercase) 
+        export NAMESPACE=${SHORT_BRANCH_NAME,,}
 
         # TODO: add other cleaning rules for subdomain string (https://help.fasthosts.co.uk/app/answers/detail/a_id/259/~/domain-registration-rules-and-restrictions)
 
@@ -33,7 +43,11 @@ runs:
 
     - name: SERVICE_NAME
       run: |
-        export SERVICE_NAME=${GITHUB_REPOSITORY##*/}
+        export GITHUB_REPO=${{ inputs.SERVICE_NAME }}
+
+        # will remove all but the content behind the last '/'
+        export SERVICE_NAME=${GITHUB_REPO##*/}
+        
         echo "SERVICE_NAME=$SERVICE_NAME"
         echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
       shell: bash
@@ -55,7 +69,7 @@ runs:
     - name: CERT_NAME
       run: |
         export TLD=${{ inputs.TLD }}
-        export CERT_NAME=wildcard-${TLD/./-}
+        export CERT_NAME=wildcard-${TLD//./-}
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
       shell: bash
