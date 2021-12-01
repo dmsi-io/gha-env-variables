@@ -15,7 +15,7 @@ jobs:
         uses: dmsi-io/gha-env-variables@feature/AW-597
         with:
           TLD: agility.dmsi.io
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_PROJECT_ID: test-project-id
 
       - name: Print Environment Variable Replacement
         run: cat example.txt | envsubst
