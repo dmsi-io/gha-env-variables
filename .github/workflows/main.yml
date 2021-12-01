@@ -9,4 +9,4 @@ jobs:
     name: Test gha-env-variables
     steps:
       - name: Export Environment Variables
-        uses: dmsi-io/gha-env-variables@${{ github.ref_name }}
+        uses: dmsi-io/gha-env-variables@feature/AW-597
