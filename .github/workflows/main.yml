@@ -8,5 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Test gha-env-variables
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Export Environment Variables
         uses: dmsi-io/gha-env-variables@feature/AW-597
+        with:
+          TLD: agility.dmsi.io
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Print Environment Variable Replacement
+        run: cat example.txt | envsubst
