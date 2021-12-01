@@ -26,6 +26,13 @@ jobs:
       - name: Print Environment Variable Replacement
         run: cat example.txt | envsubst
 
+  test-gha-env-variables-defaults:
+    runs-on: ubuntu-latest
+    name: Test gha-env-variables (override defaults)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Export Environment Variables (override defaults)
         uses: dmsi-io/gha-env-variables@feature/AW-597
         with:
@@ -33,6 +40,12 @@ jobs:
           GCP_PROJECT_ID: test-project-id
           NAMESPACE: something/testing-OVERRIDE
           SERVICE_NAME: something/testing-override
+
+      - name: Install envsubst
+        run: |
+          env | sort
+          sudo apt-get install gettext
+        shell: bash
 
       - name: Print Environment Variable Replacement (override defaults)
         run: cat example.txt | envsubst
