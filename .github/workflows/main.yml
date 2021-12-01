@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     name: Test gha-env-variables
     steps:
-      - name: Create Branches
+      - name: Export Environment Variables
         uses: dmsi-io/gha-env-variables@${{ github.ref_name }}
