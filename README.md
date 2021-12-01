@@ -5,10 +5,21 @@ This GitHub Action is intended to be used during the setup phase as a way to sta
 ### Usage
 
 ```yaml
-
 - name: Export Environment Variables
   uses: dmsi-io/gha-env-variables@main
   with:
     TLD: ${{ secrets.TOP_LEVEL_DOMAIN }}
     GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+```
+
+It is possible to override some of the environment variable defaults by providing them as inputs:
+
+```yaml
+- name: Export Environment Variables
+  uses: dmsi-io/gha-env-variables@main
+  with:
+    TLD: ${{ secrets.TOP_LEVEL_DOMAIN }}
+    GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+    NAMESPACE: namespace/override
+    SERVICE_NAME: service/override
 ```
