@@ -16,13 +16,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: SHORT_SHA
-      run: |
-        export SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7) 
-        echo "SHORT_SHA=$SHORT_SHA"
-        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
-      shell: bash
-
     - name: NAMESPACE
       run: |
         # will remove all but the content behind the last '/'
