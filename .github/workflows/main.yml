@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Export Environment Variables
-        uses: dmsi-io/gha-env-variables@feature/AW-597
+        uses: dmsi-io/gha-env-variables@main
         with:
           TLD: agility.dmsi.io
           GCP_PROJECT_ID: test-project-id
@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Export Environment Variables (override defaults)
-        uses: dmsi-io/gha-env-variables@feature/AW-597
+        uses: dmsi-io/gha-env-variables@main
         with:
           TLD: agility.dmsi.io
           GCP_PROJECT_ID: test-project-id
