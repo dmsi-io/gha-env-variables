@@ -1,37 +1,82 @@
 name: 'Setup Environment Variables'
 description: 'Exports set list of environment variables to GITHUB_ENV with sensible defaults.'
 
-# inputs:
-#   repo:
-#     description: 'Repository to create branch on'
-#     required: true
-#   org:
-#     description: 'Organization or user to manage repos under'
-#     default: ${{ github.repository_owner }}
-#     required: false
-#   token:
-#     description: 'Personal Access Token (PAT)'
-#     required: true
+inputs:
+  GCP_PROJECT_ID:
+    description: 'ProjectID of the GCP project to deploy to.'
+    required: true
+  REGISTRY_HOSTNAME:
+    description: 'Hostname of Container Registry'
+    default: 'gcr.io'
+    required: false
+  TLD:
+    description: 'Top Level Domain to create subdomain on.'
+    required: true
+  NAMESPACE: 
+    description: 'Allows to override the desired NAMESPACE variable'
+    required: false
+    default: ${{ github.ref_name }}
+  SERVICE_NAME: 
+    description: 'Allows to override the desired SERVICE_NAME variable'
+    required: false
+    default: ${{ github.repository }}
 
 runs:
   using: 'composite'
   steps:
     - name: SHORT_SHA
       run: |
-        export SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)
+        export SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7) 
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
       shell: bash
 
     - name: NAMESPACE
       run: |
-        # will remove all but the content behind the last '/'
-        export BRANCH_NAME=${GITHUB_REF##*/}
+        export BRANCH_NAME=${{ inputs.NAMESPACE }}
 
-        # will convert to lowercase (domains must be all lowercase)
-        export NAMESPACE=${BRANCH_NAME,,}
+        # will remove all but the content behind the last '/'
+        export SHORT_BRANCH_NAME=${BRANCH_NAME##*/}
+
+        # will convert to lowercase (namespaces must be all lowercase) 
+        export NAMESPACE=${SHORT_BRANCH_NAME,,}
+
+        # TODO: add other cleaning rules for subdomain string (https://help.fasthosts.co.uk/app/answers/detail/a_id/259/~/domain-registration-rules-and-restrictions)
 
         echo "NAMESPACE=$NAMESPACE"
 
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
+      shell: bash
+
+    - name: SERVICE_NAME
+      run: |
+        export GITHUB_REPO=${{ inputs.SERVICE_NAME }}
+
+        # will remove all but the content behind the last '/'
+        export SERVICE_NAME=${GITHUB_REPO##*/}
+        
+        echo "SERVICE_NAME=$SERVICE_NAME"
+        echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+      shell: bash
+
+    - name: BUILD_IMAGE
+      run: |
+        export BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:$SHORT_SHA
+        echo "BUILD_IMAGE=$BUILD_IMAGE"
+        echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
+      shell: bash
+
+    - name: HOSTNAME
+      run: |
+        export HOSTNAME=$NAMESPACE.${{ inputs.TLD }}
+        echo "HOSTNAME=$HOSTNAME"
+        echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
+      shell: bash
+
+    - name: CERT_NAME
+      run: |
+        export TLD=${{ inputs.TLD }}
+        export CERT_NAME=wildcard-${TLD//./-}
+        echo "CERT_NAME=$CERT_NAME"
+        echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
       shell: bash
