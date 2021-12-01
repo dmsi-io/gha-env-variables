@@ -1,9 +1,7 @@
 name: Test gha-env-variables
 
 on:
-  push:
-    branches:
-      - '!main'
+  - push
 
 jobs:
   test-gha-env-variables:
