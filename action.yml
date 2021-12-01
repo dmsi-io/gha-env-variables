@@ -1,0 +1,37 @@
+name: 'Setup Environment Variables'
+description: 'Exports set list of environment variables to GITHUB_ENV with sensible defaults.'
+
+# inputs:
+#   repo:
+#     description: 'Repository to create branch on'
+#     required: true
+#   org:
+#     description: 'Organization or user to manage repos under'
+#     default: ${{ github.repository_owner }}
+#     required: false
+#   token:
+#     description: 'Personal Access Token (PAT)'
+#     required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: SHORT_SHA
+      run: |
+        export SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)
+        echo "SHORT_SHA=$SHORT_SHA"
+        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+      shell: bash
+
+    - name: NAMESPACE
+      run: |
+        # will remove all but the content behind the last '/'
+        export BRANCH_NAME=${GITHUB_REF##*/}
+
+        # will convert to lowercase (domains must be all lowercase)
+        export NAMESPACE=${BRANCH_NAME,,}
+
+        echo "NAMESPACE=$NAMESPACE"
+
+        echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
+      shell: bash

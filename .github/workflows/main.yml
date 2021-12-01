@@ -1,0 +1,14 @@
+name: Test gha-env-variables
+
+on:
+  push:
+    branches:
+      - '!main'
+
+jobs:
+  test-gha-env-variables:
+    runs-on: ubuntu-latest
+    name: Test gha-env-variables
+    steps:
+      - name: Create Branches
+        uses: dmsi-io/gha-env-variables@${{ github.ref_name }}
