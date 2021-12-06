@@ -1,6 +1,7 @@
 # https://kubernetes.io/docs/concepts/overview/working-with-objects/names/
 
-INPUT="something/feature/---123-TEST-!@#$%-0000000000000000000000000000000000000000000000000012345---"
+INPUT=$1
+# INPUT="something/feature/---123-TEST-!@#$%-0000000000000000000000000000000000000000000000000012345---"
 # echo $INPUT
 
 # removes all content before and including last forward slash
