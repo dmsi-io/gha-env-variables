@@ -26,23 +26,14 @@ runs:
   steps:
     - name: SHORT_SHA
       run: |
-        export SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7) 
+        export SHORT_SHA=${GITHUB_SHA:0:7}
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
       shell: bash
 
     - name: NAMESPACE
       run: |
-        export BRANCH_NAME=${{ inputs.NAMESPACE }}
-
-        # will remove all but the content behind the last '/'
-        export SHORT_BRANCH_NAME=${BRANCH_NAME##*/}
-
-        # will convert to lowercase (namespaces must be all lowercase) 
-        export NAMESPACE=${SHORT_BRANCH_NAME,,}
-
-        # TODO: add other cleaning rules for subdomain string (https://help.fasthosts.co.uk/app/answers/detail/a_id/259/~/domain-registration-rules-and-restrictions)
-
+        NAMESPACE=$(${{ github.action_path }}/clean_variable.sh ${{ inputs.NAMESPACE }})
         echo "NAMESPACE=$NAMESPACE"
 
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV

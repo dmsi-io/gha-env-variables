@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Test gha-env-variables
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Export Environment Variables
         uses: dmsi-io/gha-env-variables@main
         with:
@@ -23,6 +20,9 @@ jobs:
           sudo apt-get install gettext
         shell: bash
 
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Print Environment Variable Replacement
         run: cat example.txt | envsubst
 
@@ -30,9 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Test gha-env-variables (override defaults)
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Export Environment Variables (override defaults)
         uses: dmsi-io/gha-env-variables@main
         with:
@@ -46,6 +43,9 @@ jobs:
           env | sort
           sudo apt-get install gettext
         shell: bash
+
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Print Environment Variable Replacement (override defaults)
         run: cat example.txt | envsubst
