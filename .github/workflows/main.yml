@@ -9,7 +9,7 @@ jobs:
     name: Test gha-env-variables
     steps:
       - name: Export Environment Variables
-        uses: dmsi-io/gha-env-variables@main
+        uses: dmsi-io/gha-env-variables@feature/KNOX-176
         with:
           TLD: agility.dmsi.io
           GCP_PROJECT_ID: test-project-id
@@ -31,7 +31,7 @@ jobs:
     name: Test gha-env-variables (override defaults)
     steps:
       - name: Export Environment Variables (override defaults)
-        uses: dmsi-io/gha-env-variables@main
+        uses: dmsi-io/gha-env-variables@feature/KNOX-176
         with:
           TLD: agility.dmsi.io
           GCP_PROJECT_ID: test-project-id
