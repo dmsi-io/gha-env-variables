@@ -35,8 +35,8 @@ jobs:
         with:
           TLD: agility.dmsi.io
           GCP_PROJECT_ID: test-project-id
-          NAMESPACE: something/testing-OVERRIDE
-          SERVICE_NAME: something/testing-override
+          NAMESPACE: something/feature/---123-TEST-!@#$%-0000000000000000000000000000000000000000000000000012345---
+          SERVICE_NAME: something/feature/---123-TEST-!@#$%-0000000000000000000000000000000000000000000000000012345---
 
       - name: Install envsubst
         run: |
