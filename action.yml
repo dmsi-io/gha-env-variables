@@ -33,7 +33,8 @@ runs:
 
     - name: NAMESPACE
       run: |
-        NAMESPACE=$(${{ github.action_path }}/clean_variable.sh ${{ inputs.NAMESPACE }})
+        ls -al ${{ github.action_path }}
+        NAMESPACE=$(.${{ github.action_path }}/clean_variable.sh ${{ inputs.NAMESPACE }})
         echo "NAMESPACE=$NAMESPACE"
 
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
