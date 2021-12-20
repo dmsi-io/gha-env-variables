@@ -27,7 +27,11 @@ jobs:
         run: cat example.txt | envsubst
 
       - name: Print outputs
-        run: echo $OUTPUTS
+        run: |
+          echo $OUTPUTS
+          echo ${{ steps.export-vars.outputs.short_sha }}
+          echo ${{ steps.export-vars.outputs.hostname }}
+          echo ${{ steps.export-vars.outputs.cert_name }}
         env:
           OUTPUTS: ${{ toJSON(steps.export-vars.outputs) }}
 
