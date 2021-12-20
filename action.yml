@@ -22,9 +22,15 @@ inputs:
     default: ${{ github.repository }}
 
 outputs:
+  short_sha:
+    description: 'Short Sha'
+    value: ${{ steps.SHORT_SHA.outputs.SHORT_SHA }}
   hostname:
-    description: "Hostname"
-    value: ${{ steps.hostname.outputs.hostname }}
+    description: 'Hostname'
+    value: ${{ steps.HOSTNAME.outputs.HOSTNAME }}
+  cert_name:
+    description: 'TLS Certificate Name'
+    value: ${{ steps.CERT_NAME.outputs.CERT_NAME }}
 
 runs:
   using: 'composite'
@@ -34,6 +40,8 @@ runs:
         SHORT_SHA=${GITHUB_SHA:0:7}
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+
+        echo "::set-output name=SHORT_SHA::$SHORT_SHA"
       shell: bash
 
     - name: NAMESPACE
@@ -60,19 +68,22 @@ runs:
       shell: bash
 
     - name: HOSTNAME
-      id: hostname
+      id: HOSTNAME
       run: |
         HOSTNAME=$NAMESPACE.${{ inputs.TLD }}
         echo "HOSTNAME=$HOSTNAME"
         echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
 
-        echo "::set-output name=hostname::$HOSTNAME"
+        echo "::set-output name=HOSTNAME::$HOSTNAME"
       shell: bash
 
     - name: CERT_NAME
+      id: CERT_NAME
       run: |
         TLD=${{ inputs.TLD }}
         CERT_NAME=wildcard-${TLD//./-}
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
+
+        echo "::set-output name=CERT_NAME::$(echo $CERT_NAME)"
       shell: bash
