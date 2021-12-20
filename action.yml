@@ -21,6 +21,11 @@ inputs:
     required: false
     default: ${{ github.repository }}
 
+outputs:
+  hostname:
+    description: "Hostname"
+    value: ${{ steps.hostname.outputs.hostname }}
+
 runs:
   using: 'composite'
   steps:
@@ -55,11 +60,12 @@ runs:
       shell: bash
 
     - name: HOSTNAME
+      id: hostname
       run: |
         HOSTNAME=$NAMESPACE.${{ inputs.TLD }}
         echo "HOSTNAME=$HOSTNAME"
         echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
-        
+
         echo "::set-output name=hostname::$HOSTNAME"
       shell: bash
 
