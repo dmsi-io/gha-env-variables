@@ -28,12 +28,17 @@ jobs:
 
       - name: Print outputs
         run: |
-          echo $OUTPUTS
-          echo ${{ steps.export-vars.outputs.short_sha }}
-          echo ${{ steps.export-vars.outputs.hostname }}
-          echo ${{ steps.export-vars.outputs.cert_name }}
+          echo "OUTPUTS=$OUTPUTS"
+          echo "EXPORT_VARS=$EXPORT_VARS"
+          echo "EXPORT_VARS=$STEP_VARS"
+          echo "short_sha=${{ steps.export-vars.outputs.short_sha }}"
+          echo "hostname=${{ steps.export-vars.outputs.hostname }}"
+          echo "cert_name=${{ steps.export-vars.outputs.cert_name }}"
+          echo "hard_coded=${{ steps.export-vars.outputs.hard_coded }}"
         env:
           OUTPUTS: ${{ toJSON(steps.export-vars.outputs) }}
+          EXPORT_VARS: ${{ toJSON(steps.export-vars) }}
+          STEP_VARS: ${{ toJSON(steps) }}
 
   test-gha-env-variables-defaults:
     runs-on: ubuntu-latest

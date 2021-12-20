@@ -31,6 +31,9 @@ outputs:
   cert_name:
     description: 'TLS Certificate Name'
     value: ${{ steps.CERT_NAME.outputs.CERT_NAME }}
+  hard_coded:
+    description: 'Hard coded value'
+    value: hard-coded
 
 runs:
   using: 'composite'
