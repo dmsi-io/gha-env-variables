@@ -25,20 +25,27 @@ outputs:
   short_sha:
     description: 'Short Sha'
     value: ${{ steps.SHORT_SHA.outputs.SHORT_SHA }}
+  namespace:
+    description: 'Kubernetes Namespace'
+    value: ${{ steps.NAMESPACE.outputs.NAMESPACE }}
+  service_name:
+    description: 'Kubernetes Service Name'
+    value: ${{ steps.SERVICE_NAME.outputs.SERVICE_NAME }}
+  build_image:
+    description: 'Docker Build Image'
+    value: ${{ steps.BUILD_IMAGE.outputs.BUILD_IMAGE }}
   hostname:
     description: 'Hostname'
     value: ${{ steps.HOSTNAME.outputs.HOSTNAME }}
   cert_name:
     description: 'TLS Certificate Name'
     value: ${{ steps.CERT_NAME.outputs.CERT_NAME }}
-  hard_coded:
-    description: 'Hard coded value'
-    value: hard-coded
 
 runs:
   using: 'composite'
   steps:
     - name: SHORT_SHA
+      id: SHORT_SHA
       run: |
         SHORT_SHA=${GITHUB_SHA:0:7}
         echo "SHORT_SHA=$SHORT_SHA"
@@ -48,26 +55,36 @@ runs:
       shell: bash
 
     - name: NAMESPACE
+      id: NAMESPACE
       run: |
         NAMESPACE=$(${{ github.action_path }}/clean_variable.sh ${{ inputs.NAMESPACE }})
-        echo "NAMESPACE=$NAMESPACE"
 
+        echo "NAMESPACE=$NAMESPACE"
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
+
+        echo "::set-output name=NAMESPACE::$NAMESPACE"
       shell: bash
 
     - name: SERVICE_NAME
+      id: SERVICE_NAME
       run: |
         SERVICE_NAME=$(${{ github.action_path }}/clean_variable.sh ${{ inputs.SERVICE_NAME }})
         
         echo "SERVICE_NAME=$SERVICE_NAME"
         echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+        
+        echo "::set-output name=SERVICE_NAME::$SERVICE_NAME"
       shell: bash
 
     - name: BUILD_IMAGE
+      id: BUILD_IMAGE
       run: |
         BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:$SHORT_SHA
+
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
+
+        echo "::set-output name=BUILD_IMAGE::$BUILD_IMAGE"
       shell: bash
 
     - name: HOSTNAME
@@ -88,5 +105,5 @@ runs:
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
 
-        echo "::set-output name=CERT_NAME::$(echo $CERT_NAME)"
+        echo "::set-output name=CERT_NAME::$CERT_NAME"
       shell: bash
