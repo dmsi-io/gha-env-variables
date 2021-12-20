@@ -59,6 +59,8 @@ runs:
         HOSTNAME=$NAMESPACE.${{ inputs.TLD }}
         echo "HOSTNAME=$HOSTNAME"
         echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
+        
+        echo "::set-output name=hostname::$HOSTNAME"
       shell: bash
 
     - name: CERT_NAME
