@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Export Environment Variables
         id: export-vars
-        uses: dmsi-io/gha-env-variables@main
+        uses: dmsi-io/gha-env-variables@feature/variable-outputs
         with:
           TLD: ${{ secrets.TLD }}
           GCP_PROJECT_ID: test-project-id
@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "OUTPUTS=$OUTPUTS"
           echo "EXPORT_VARS=$EXPORT_VARS"
-          echo "EXPORT_VARS=$STEP_VARS"
+          echo "STEP_VARS=$STEP_VARS"
           echo "short_sha=${{ steps.export-vars.outputs.short_sha }}"
           echo "hostname=${{ steps.export-vars.outputs.hostname }}"
           echo "cert_name=${{ steps.export-vars.outputs.cert_name }}"
