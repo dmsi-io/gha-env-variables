@@ -9,15 +9,15 @@ jobs:
     name: Test gha-env-variables
     steps:
       - name: Export Environment Variables
+        id: export-vars
         uses: dmsi-io/gha-env-variables@main
         with:
-          TLD: agility.dmsi.io
+          TLD: ${{ secrets.TLD }}
           GCP_PROJECT_ID: test-project-id
 
       - name: Install envsubst
         run: |
           env | sort
-          sudo apt-get install gettext
         shell: bash
 
       - name: Checkout
@@ -25,6 +25,12 @@ jobs:
 
       - name: Print Environment Variable Replacement
         run: cat example.txt | envsubst
+
+      - name: Print outputs
+        run: |
+          echo "OUTPUTS=$OUTPUTS"
+        env:
+          OUTPUTS: ${{ toJSON(steps.export-vars.outputs) }}
 
   test-gha-env-variables-defaults:
     runs-on: ubuntu-latest
@@ -41,7 +47,6 @@ jobs:
       - name: Install envsubst
         run: |
           env | sort
-          sudo apt-get install gettext
         shell: bash
 
       - name: Checkout
