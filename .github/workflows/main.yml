@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Export Environment Variables
         id: export-vars
-        uses: dmsi-io/gha-env-variables@feature/variable-outputs
+        uses: dmsi-io/gha-env-variables@main
         with:
           TLD: ${{ secrets.TLD }}
           GCP_PROJECT_ID: test-project-id
