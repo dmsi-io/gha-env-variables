@@ -23,3 +23,27 @@ It is possible to override some of the environment variable defaults by providin
     NAMESPACE: namespace/override
     SERVICE_NAME: service/override
 ```
+
+### Outputs
+
+```yaml
+# id: variables
+
+# SHORT_SHA
+${{ steps.variables.outputs.short_sha }}
+
+# NAMESPACE
+${{ steps.variables.outputs.namespace }}
+
+# SERVICE_NAME
+${{ steps.variables.outputs.service_name }}
+
+# BUILD_IMAGE
+${{ steps.variables.outputs.build_image }}
+
+# HOSTNAME
+${{ steps.variables.outputs.hostname }}
+
+# CERT_NAME
+${{ steps.variables.outputs.cert_name }}
+```
