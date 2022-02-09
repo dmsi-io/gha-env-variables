@@ -84,7 +84,7 @@ runs:
     - name: Docker Tag
       id: docker_tag
       run: |
-        if [ "${{ github.github.ref_type }}" = "tag" ]; then
+        if [ "${{ github.ref_type }}" = "tag" ]; then
           echo "::set-output name=tag_name::${{ steps.get_ref.outputs.ref_name }}"
 
         else
