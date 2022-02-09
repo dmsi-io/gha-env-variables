@@ -12,11 +12,10 @@ inputs:
   TLD:
     description: 'Top Level Domain to create subdomain on.'
     required: true
-  NAMESPACE: 
+  NAMESPACE:
     description: 'Allows to override the desired NAMESPACE variable'
     required: false
-    default: ${{ github.ref_name }}
-  SERVICE_NAME: 
+  SERVICE_NAME:
     description: 'Allows to override the desired SERVICE_NAME variable'
     required: false
     default: ${{ github.repository }}
@@ -54,10 +53,16 @@ runs:
         echo "::set-output name=SHORT_SHA::$SHORT_SHA"
       shell: bash
 
+    - name: Get Ref
+      id: get_ref
+      uses: dmsi-io/gha-get-ref@v1
+      with:
+        custom_ref: ${{ inputs.NAMESPACE }}
+
     - name: NAMESPACE
       id: NAMESPACE
       run: |
-        NAMESPACE=$(${{ github.action_path }}/clean_variable.sh ${{ inputs.NAMESPACE }})
+        NAMESPACE=$(${{ github.action_path }}/clean_variable.sh ${{ steps.get_ref.outputs.ref_name }})
 
         echo "NAMESPACE=$NAMESPACE"
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
@@ -69,17 +74,29 @@ runs:
       id: SERVICE_NAME
       run: |
         SERVICE_NAME=$(${{ github.action_path }}/clean_variable.sh ${{ inputs.SERVICE_NAME }})
-        
+
         echo "SERVICE_NAME=$SERVICE_NAME"
         echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
-        
+
         echo "::set-output name=SERVICE_NAME::$SERVICE_NAME"
+      shell: bash
+
+    - name: Docker Tag
+      id: docker_tag
+      run: |
+        if [ "${{ github.ref_type }}" = "tag" ]; then
+          echo "::set-output name=tag_name::${{ steps.get_ref.outputs.ref_name }}"
+
+        else
+          echo "::set-output name=tag_name::$SHORT_SHA"
+
+        fi
       shell: bash
 
     - name: BUILD_IMAGE
       id: BUILD_IMAGE
       run: |
-        BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:$SHORT_SHA
+        BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ steps.docker_tag.outputs.tag_name }}
 
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV

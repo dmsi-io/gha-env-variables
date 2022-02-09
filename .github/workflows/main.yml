@@ -2,6 +2,7 @@ name: Test gha-env-variables
 
 on:
   - push
+  - pull_request
 
 jobs:
   test-gha-env-variables:
