@@ -81,10 +81,22 @@ runs:
         echo "::set-output name=SERVICE_NAME::$SERVICE_NAME"
       shell: bash
 
+    - name: Docker Tag
+      id: docker_tag
+      run: |
+        if [ "${{ github.github.ref_type }}" = "tag" ]; then
+          echo "::set-output name=tag_name::${{ steps.get_ref.outputs.ref_name }}"
+
+        else
+          echo "::set-output name=tag_name::$SHORT_SHA"
+
+        fi
+      shell: bash
+
     - name: BUILD_IMAGE
       id: BUILD_IMAGE
       run: |
-        BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:$SHORT_SHA
+        BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ steps.docker_tag.outputs.tag_name }}
 
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
