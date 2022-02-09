@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Export Environment Variables
         id: export-vars
-        uses: dmsi-io/gha-env-variables@feature/HOU-166
+        uses: dmsi-io/gha-env-variables@main
         with:
           TLD: ${{ secrets.TLD }}
           GCP_PROJECT_ID: test-project-id
@@ -38,7 +38,7 @@ jobs:
     name: Test gha-env-variables (override defaults)
     steps:
       - name: Export Environment Variables (override defaults)
-        uses: dmsi-io/gha-env-variables@feature/HOU-166
+        uses: dmsi-io/gha-env-variables@main
         with:
           TLD: agility.dmsi.io
           GCP_PROJECT_ID: test-project-id
