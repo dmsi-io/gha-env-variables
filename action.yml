@@ -58,6 +58,16 @@ runs:
       uses: dmsi-io/gha-get-ref@v1
       with:
         custom_ref: ${{ inputs.NAMESPACE }}
+    
+    - name: ENV
+      id: ENV
+      run: |
+        ENV=${{ github.ref_type == 'tag' &&  'production' || 'development'}}
+        echo "ENV=$ENV"
+        echo "ENV=$ENV" >> $GITHUB_ENV
+
+        echo "::set-output name=ENV::$ENV"
+      shell: bash
 
     - name: NAMESPACE
       id: NAMESPACE
