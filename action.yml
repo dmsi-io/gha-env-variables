@@ -24,6 +24,9 @@ outputs:
   short_sha:
     description: 'Short Sha'
     value: ${{ steps.SHORT_SHA.outputs.SHORT_SHA }}
+  env:
+    description: 'Kubernetes Environment'
+    value: ${{ steps.ENV.outputs.ENV }}
   namespace:
     description: 'Kubernetes Namespace'
     value: ${{ steps.NAMESPACE.outputs.NAMESPACE }}
