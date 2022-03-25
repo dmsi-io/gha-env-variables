@@ -24,6 +24,9 @@ outputs:
   short_sha:
     description: 'Short Sha'
     value: ${{ steps.SHORT_SHA.outputs.SHORT_SHA }}
+  env:
+    description: 'Kubernetes Environment'
+    value: ${{ steps.ENV.outputs.ENV }}
   namespace:
     description: 'Kubernetes Namespace'
     value: ${{ steps.NAMESPACE.outputs.NAMESPACE }}
@@ -58,6 +61,16 @@ runs:
       uses: dmsi-io/gha-get-ref@v1
       with:
         custom_ref: ${{ inputs.NAMESPACE }}
+    
+    - name: ENV
+      id: ENV
+      run: |
+        ENV=${{ github.ref_type == 'tag' &&  'production' || 'development'}}
+        echo "ENV=$ENV"
+        echo "ENV=$ENV" >> $GITHUB_ENV
+
+        echo "::set-output name=ENV::$ENV"
+      shell: bash
 
     - name: NAMESPACE
       id: NAMESPACE

@@ -32,6 +32,9 @@ It is possible to override some of the environment variable defaults by providin
 # SHORT_SHA
 ${{ steps.variables.outputs.short_sha }}
 
+# ENV
+${{ steps.variables.outputs.env }}
+
 # NAMESPACE
 ${{ steps.variables.outputs.namespace }}
 
