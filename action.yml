@@ -22,7 +22,7 @@ inputs:
 
 outputs:
   short_sha:
-    description: 'Short Sha'
+    description: 'Short SHA'
     value: ${{ steps.SHORT_SHA.outputs.SHORT_SHA }}
   env:
     description: 'Kubernetes Environment'
@@ -53,7 +53,7 @@ runs:
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
 
-        echo "::set-output name=SHORT_SHA::$SHORT_SHA"
+        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Get Ref
@@ -69,7 +69,7 @@ runs:
         echo "ENV=$ENV"
         echo "ENV=$ENV" >> $GITHUB_ENV
 
-        echo "::set-output name=ENV::$ENV"
+        echo "ENV=$ENV" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: NAMESPACE
@@ -80,7 +80,7 @@ runs:
         echo "NAMESPACE=$NAMESPACE"
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
 
-        echo "::set-output name=NAMESPACE::$NAMESPACE"
+        echo "NAMESPACE=$NAMESPACE" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: SERVICE_NAME
@@ -91,7 +91,7 @@ runs:
         echo "SERVICE_NAME=$SERVICE_NAME"
         echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
 
-        echo "::set-output name=SERVICE_NAME::$SERVICE_NAME"
+        echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Docker Tag
@@ -102,13 +102,13 @@ runs:
         REF="${{ steps.get_ref.outputs.ref_name }}"
 
         if [ "${{ github.ref_type }}" = "tag" ]; then
-          echo "::set-output name=tag_name::$REF"
+          echo "tag_name=$REF" >> $GITHUB_OUTPUT
 
         elif [[ "$REF" =~ $RELEASE_REGEX ]] && [[ "${REF##*/}" =~ $SEMVER_REGEX ]]; then
-          echo "::set-output name=tag_name::${REF##*/}"
+          echo "tag_name=${REF##*/}" >> $GITHUB_OUTPUT
 
         else
-          echo "::set-output name=tag_name::$SHORT_SHA"
+          echo "tag_name=$SHORT_SHA" >> $GITHUB_OUTPUT
 
         fi
       shell: bash
@@ -121,7 +121,7 @@ runs:
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
 
-        echo "::set-output name=BUILD_IMAGE::$BUILD_IMAGE"
+        echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: HOSTNAME
@@ -131,7 +131,7 @@ runs:
         echo "HOSTNAME=$HOSTNAME"
         echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
 
-        echo "::set-output name=HOSTNAME::$HOSTNAME"
+        echo "HOSTNAME=$HOSTNAME" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: CERT_NAME
@@ -142,5 +142,5 @@ runs:
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
 
-        echo "::set-output name=CERT_NAME::$CERT_NAME"
+        echo "CERT_NAME=$CERT_NAME" >> $GITHUB_OUTPUT
       shell: bash
