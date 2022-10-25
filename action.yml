@@ -52,7 +52,6 @@ runs:
         SHORT_SHA=${GITHUB_SHA:0:7}
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
-
         echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -68,7 +67,6 @@ runs:
         ENV=${{ github.ref_type == 'tag' &&  'production' || 'development'}}
         echo "ENV=$ENV"
         echo "ENV=$ENV" >> $GITHUB_ENV
-
         echo "env=$ENV" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -79,7 +77,6 @@ runs:
 
         echo "NAMESPACE=$NAMESPACE"
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
-
         echo "namespace=$NAMESPACE" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -90,7 +87,6 @@ runs:
 
         echo "SERVICE_NAME=$SERVICE_NAME"
         echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
-
         echo "service_name=$SERVICE_NAME" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -103,13 +99,10 @@ runs:
 
         if [ "${{ github.ref_type }}" = "tag" ]; then
           echo "tag_name=$REF" >> $GITHUB_OUTPUT
-
         elif [[ "$REF" =~ $RELEASE_REGEX ]] && [[ "${REF##*/}" =~ $SEMVER_REGEX ]]; then
           echo "tag_name=${REF##*/}" >> $GITHUB_OUTPUT
-
         else
           echo "tag_name=$SHORT_SHA" >> $GITHUB_OUTPUT
-
         fi
       shell: bash
 
@@ -120,7 +113,6 @@ runs:
 
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
-
         echo "build_image=$BUILD_IMAGE" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -130,7 +122,6 @@ runs:
         HOSTNAME=$NAMESPACE.${{ inputs.TLD }}
         echo "HOSTNAME=$HOSTNAME"
         echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
-
         echo "hostname=$HOSTNAME" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -141,6 +132,5 @@ runs:
         CERT_NAME=wildcard-${TLD//./-}
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
-
         echo "cert_name=$CERT_NAME" >> $GITHUB_OUTPUT
       shell: bash
