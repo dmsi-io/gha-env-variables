@@ -23,25 +23,25 @@ inputs:
 outputs:
   short_sha:
     description: 'Short SHA'
-    value: ${{ steps.SHORT_SHA.outputs.SHORT_SHA }}
+    value: ${{ steps.SHORT_SHA.outputs.short_sha }}
   env:
     description: 'Kubernetes Environment'
-    value: ${{ steps.ENV.outputs.ENV }}
+    value: ${{ steps.ENV.outputs.env }}
   namespace:
     description: 'Kubernetes Namespace'
-    value: ${{ steps.NAMESPACE.outputs.NAMESPACE }}
+    value: ${{ steps.NAMESPACE.outputs.namespace }}
   service_name:
     description: 'Kubernetes Service Name'
-    value: ${{ steps.SERVICE_NAME.outputs.SERVICE_NAME }}
+    value: ${{ steps.SERVICE_NAME.outputs.service_name }}
   build_image:
     description: 'Docker Build Image'
     value: ${{ steps.BUILD_IMAGE.outputs.BUILD_IMAGE }}
   hostname:
     description: 'Hostname'
-    value: ${{ steps.HOSTNAME.outputs.HOSTNAME }}
+    value: ${{ steps.HOSTNAME.outputs.hostname }}
   cert_name:
     description: 'TLS Certificate Name'
-    value: ${{ steps.CERT_NAME.outputs.CERT_NAME }}
+    value: ${{ steps.CERT_NAME.outputs.cert_name }}
 
 runs:
   using: 'composite'
@@ -53,7 +53,7 @@ runs:
         echo "SHORT_SHA=$SHORT_SHA"
         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
 
-        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
+        echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Get Ref
@@ -69,7 +69,7 @@ runs:
         echo "ENV=$ENV"
         echo "ENV=$ENV" >> $GITHUB_ENV
 
-        echo "ENV=$ENV" >> $GITHUB_OUTPUT
+        echo "env=$ENV" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: NAMESPACE
@@ -80,7 +80,7 @@ runs:
         echo "NAMESPACE=$NAMESPACE"
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
 
-        echo "NAMESPACE=$NAMESPACE" >> $GITHUB_OUTPUT
+        echo "namespace=$NAMESPACE" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: SERVICE_NAME
@@ -91,7 +91,7 @@ runs:
         echo "SERVICE_NAME=$SERVICE_NAME"
         echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
 
-        echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_OUTPUT
+        echo "service_name=$SERVICE_NAME" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Docker Tag
@@ -121,7 +121,7 @@ runs:
         echo "BUILD_IMAGE=$BUILD_IMAGE"
         echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
 
-        echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_OUTPUT
+        echo "build_image=$BUILD_IMAGE" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: HOSTNAME
@@ -131,7 +131,7 @@ runs:
         echo "HOSTNAME=$HOSTNAME"
         echo "HOSTNAME=$HOSTNAME" >> $GITHUB_ENV
 
-        echo "HOSTNAME=$HOSTNAME" >> $GITHUB_OUTPUT
+        echo "hostname=$HOSTNAME" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: CERT_NAME
@@ -142,5 +142,5 @@ runs:
         echo "CERT_NAME=$CERT_NAME"
         echo "CERT_NAME=$CERT_NAME" >> $GITHUB_ENV
 
-        echo "CERT_NAME=$CERT_NAME" >> $GITHUB_OUTPUT
+        echo "cert_name=$CERT_NAME" >> $GITHUB_OUTPUT
       shell: bash
