@@ -112,8 +112,8 @@ runs:
         BUILD_IMAGE=${{ inputs.REGISTRY_HOSTNAME }}/${{ inputs.GCP_PROJECT_ID }}/$SERVICE_NAME:${{ steps.docker_tag.outputs.tag_name }}
 
         echo "BUILD_IMAGE=$BUILD_IMAGE"
-        echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
         echo "build_image=$BUILD_IMAGE" >> $GITHUB_OUTPUT
+        echo "BUILD_IMAGE=$BUILD_IMAGE" >> $GITHUB_ENV
       shell: bash
 
     - name: HOSTNAME
